@@ -14,13 +14,12 @@ app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(ejsLayouts);
 
-app.use(express.static(__dirname + "/public/"));
+app.use(express.static(__dirname + "/static/"));
 
 app.use(session({ // process.env.____ stores on system level, limits scope to hardware of server instead of its code. you want to .gitignore .env so it doesn't go up on the server
   secret: process.env.SESSION_SECRET || "supersecretpassword", // "supersecretpassword" is salt to set people's sessions apart
   resave: false, // if nothing changes, don't continually write to memory
   saveUninitialized: true // if it's a brand new session, save it
-  // cookie: { secure: true } // but we're not using it here. see expressjs session documentation as setting secure to true requires HTTPS
 }));
 
 app.use(passport.initialize());
@@ -44,6 +43,7 @@ app.get("/profile", isLoggedIn, function(req, res) { // runs through isLoggedIn 
 });
 
 app.use("/auth", require("./controllers/auth")); // add our controller files
+app.use("/duckify", require("./controllers/duckify"));
 
 // process.env.____ stores on system level, limits scope to hardware of server instead of its code. you want to .gitignore .env so it doesn't go up on the server
 var server = app.listen(process.env.PORT || 3000);

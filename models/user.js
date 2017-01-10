@@ -41,7 +41,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     classMethods: { // to define 1:M or M:M relationships
       associate: function(models) {
-        // associations can be defined here
+        models.user.hasMany(models.duckified);
       }
     },
     instanceMethods: { // Provide functions that are added to each instance

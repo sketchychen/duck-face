@@ -54,7 +54,7 @@ describe("User Model", function() {
           email: "nopenopenope"
         },
         defaults: {
-          name: "User Userton",
+          name: "Invalid Emailton",
           password: "regularoldpassword"
         }
       }).spread(function(user, created) {
@@ -70,7 +70,7 @@ describe("User Model", function() {
     it("should reject short names", function(done) {
       db.user.findOrCreate({
         where: {
-          email: "user@email.com"
+          email: "short@name.com"
         },
         defaults: {
           name: "",
@@ -89,10 +89,10 @@ describe("User Model", function() {
     it("should reject long names", function(done) {
       db.user.findOrCreate({
         where: {
-          email: "user@aol.com"
+          email: "long@name.com"
         },
         defaults: {
-          name: "User Userdottir11111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+          name: "Long Namedottir11111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
           password: "regularoldpassword"
         }
       }).spread(function(user, created) {
@@ -108,10 +108,10 @@ describe("User Model", function() {
     it("should reject short passwords", function(done) {
       db.user.findOrCreate({
         where: {
-          email: "user@user.com"
+          email: "short@password.com"
         },
         defaults: {
-          name: "User Userson",
+          name: "Short Passwordson",
           password: "1234567"
         }
       }).spread(function(user, created) {
@@ -127,10 +127,10 @@ describe("User Model", function() {
     it("should reject long passwords", function(done) {
       db.user.findOrCreate({
         where: {
-          email: "user@test.com"
+          email: "long@password.com"
         },
         defaults: {
-          name: "User O'User",
+          name: "Long O'Password",
           password: "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
         }
       }).spread(function(user, created) {

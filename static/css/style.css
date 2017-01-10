@@ -1,0 +1,10 @@
+canvas {
+  border: solid 1px #bbbbbb;
+}
+
+.controls {
+  width: 512px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
