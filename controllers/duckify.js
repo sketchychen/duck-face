@@ -24,14 +24,18 @@ router.post("/", function(req, res) {
 // view: duckify/preview.ejs
 router.get("/preview", function(req, res) {
   var faceppUrl = "http://api.us.faceplusplus.com/detection/detect?url="
-    + req.session.upload.url +
-    "&api_secret=" + process.env.FACEPP_SECRET +  "&api_key=" + process.env.FACEPP_KEY +
-    "&attribute=pose";
+  + req.session.upload.url
+  + "&api_secret=" + process.env.FACEPP_SECRET
+  + "&api_key=" + process.env.FACEPP_KEY
+  + "&attribute=pose";
 
   request(faceppUrl, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      var faces = JSON.parse(body).face;
-      console.log(faces);
+      var faces = body;
+      // req.session.faces = {
+      //   faces: JSON.parse(body).face
+      // };
+      // console.log(req.session.faces);
       res.render("duckify/preview", { faces: faces, imageSrc: req.session.upload.url });
     }
   });
