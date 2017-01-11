@@ -23,9 +23,19 @@ router.post("/", function(req, res) {
 // GET "/preview"
 // view: duckify/preview.ejs
 router.get("/preview", function(req, res) {
-  console.log(req.session.upload.url);
-  res.render("duckify/preview", { imageSrc: req.session.upload.url });
-})
+  var faceppUrl = "http://api.us.faceplusplus.com/detection/detect?url="
+    + req.session.upload.url +
+    "&api_secret=" + process.env.FACEPP_SECRET +  "&api_key=" + process.env.FACEPP_KEY +
+    "&attribute=pose";
+
+  request(faceppUrl, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var faces = JSON.parse(body).face;
+      console.log(faces);
+      res.render("duckify/preview", { faces: faces, imageSrc: req.session.upload.url });
+    }
+  });
+});
 
 // POST "/preview"
 // create: resulting duckified to cloud
