@@ -16,7 +16,7 @@ as a user --
 
 ## node.js dependencies
 <pre><code>npm install --save express ejs express-ejs-layouts
-npm install --save morgan body-parser dotenv
+npm install --save morgan body-parser dotenv request
 npm install --save pg pg-hstore sequelize
 npm install --save passport passport-local connect-flash bcrypt express-sessions
 

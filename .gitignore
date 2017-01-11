@@ -1,1 +1,4 @@
 node_modules
+static/.DS_Store
+static/js/clmtracker.js
+static/js/model_pca_20_svm.js
