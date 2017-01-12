@@ -23,20 +23,50 @@ router.post("/", function(req, res) {
 // GET "/preview"
 // view: duckify/preview.ejs
 router.get("/preview", function(req, res) {
-  var faceppUrl = "http://api.us.faceplusplus.com/detection/detect?url="
-  + req.session.upload.url
+  var fppDetectionDetectUrl = "http://api.us.faceplusplus.com/detection/detect?"
+  + "url=" + req.session.upload.url
   + "&api_secret=" + process.env.FACEPP_SECRET
   + "&api_key=" + process.env.FACEPP_KEY
   + "&attribute=pose";
 
-  request(faceppUrl, function (error, response, body) {
+  request(fppDetectionDetectUrl, function (error, response, body) {
+
     if (!error && response.statusCode == 200) {
-      var faces = body;
-      // req.session.faces = {
-      //   faces: JSON.parse(body).face
-      // };
-      // console.log(req.session.faces);
-      res.render("duckify/preview", { faces: faces, imageSrc: req.session.upload.url });
+
+      var detects = body;
+      // var landmarks = [];
+      //
+      // JSON.parse(body).face.forEach(function(face) {
+      //
+      //   var fppDetectionLandmarkUrl = "http://apius.faceplusplus.com/detection/landmark?"
+      //   + "api_secret=" + process.env.FACEPP_SECRET
+      //   + "&api_key=" + process.env.FACEPP_KEY
+      //   + "&face_id=" + face.face_id
+      //   + "&type=83p";
+      //
+      //   request(fppDetectionLandmarkUrl, function(error, response, body) {
+      //
+      //     if(!error && response.statusCode == 200) {
+      //       var result = JSON.parse(body).result[0];
+      //       console.log(result);
+      //       landmarks.push(result);
+      //     }
+      //
+      //   });
+      //
+      // });
+      // console.log(landmarks);
+
+      // res.render("duckify/preview", {
+      //   detects: detects,
+      //   landmarks: landmarks,
+      //   imageSrc: req.session.upload.url
+      // });
+
+      res.render("duckify/preview", {
+        detects: detects,
+        imageSrc: req.session.upload.url
+      });
     }
   });
 });

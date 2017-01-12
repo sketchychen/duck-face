@@ -1,10 +1,10 @@
-<h2>preview/edit</h2>
+<h2>preview</h2>
 <div class="container">
   <div id="editor">
     <div><canvas width="512" height="512" id="canvas"></canvas></div>
     <p id="original-url" class="hidden"><%= imageSrc %></p>
     <div class="duck-faces"></div>
-    <div class="controls">
+    <!-- <div class="controls">
         <div class="left-right">
           <button id="nudge-left" class="btn btn-default"><i-glyphicon class="glyphicon glyphicon-arrow-left" /></button>
           <button id="nudge-right" class="btn btn-default"><i-glyphicon class="glyphicon glyphicon-arrow-right" /></button>
@@ -20,10 +20,13 @@
           <button id="nudge-cw" class="btn btn-default">⟳</button>
         </div>
       <div class="scaling"></div>
-    </div>
+    </div> -->
+    <button id="save">save</button>
   </div>
+
 </div>
 
 <script>
-  $(document).ready(function() { onPreviewLoad("<%- imageSrc %>", <%- faces %>); });
+  $(document).ready(function() { onPreviewLoad("<%- imageSrc %>", <%- detects %>); });
+
 </script>
