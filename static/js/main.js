@@ -8,10 +8,7 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
   // this is to allow editing/redrawing of beaks without having to redraw the background image
   var baseImg = new Image();
   baseImg.src = imageSrc;
-
-  // // initialize all the beaks (one for now), must be before/outside baseImg.onload
-  var beakImg = new Image();
-  beakImg.src = "/img/duckbeak1.png";
+  baseImg.crossOrigin = "anonymous";
 
   // initialize all the beaks (one per face), must be before/outside baseImg.onload
   var beaks = [];
@@ -21,6 +18,7 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       faceData: face
     });
     beaks[i].img.src = "/img/duckbeak1.png";
+    beaks[i].img.crossOrigin = "anonymous";
   });
 
   console.log(beaks);

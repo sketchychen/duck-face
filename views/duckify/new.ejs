@@ -1,0 +1,23 @@
+<h2>upload</h2>
+<div>
+  <form id="upload-file-form" class="upload-box col-xs-5" enctype="multipart/form-data" method="POST" action="/duckify">
+    <input type="text" name="uploadType" value="file" class="hidden">
+    <div class="form-group">
+      <input type="file" name="myFile" id="myFile">
+      <p class="help-block">choose from your computer an image with faces that you want to duckify</p>
+    </div>
+    <button class="btn" type="submit">upload</button>
+  </form>
+
+  <h3 id="or" class="upload-box col-xs-2">or</h3>
+
+  <form id="upload-link-form" class="upload-box col-xs-5" method="POST" action="/duckify">
+    <input type="text" name="uploadType" value="link" class="hidden">
+    <div class="form-group">
+      <label for="imageUrl"></label>
+      <input name="imageUrl" type="url" class="form-control" id="" placeholder="">
+      <p class="help-block">enter the URL of an image with faces that you want to duckify</p>
+    </div>
+    <button class="btn" type="submit">upload</button>
+  </form>
+</div>

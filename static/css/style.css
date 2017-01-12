@@ -2,9 +2,16 @@ canvas {
   border: solid 1px #bbbbbb;
 }
 
-.controls {
-  width: 512px;
+.upload-box {
+  height: 175px;
   display: flex;
-  flex-flow: row;
-  justify-content: space-between;
+  text-align: left;
+  flex-flow: column;
+  justify-content: flex-end;
+}
+
+#or {
+  margin: 0;
+  text-align: center;
+  justify-content: center;
 }
