@@ -17,7 +17,7 @@ router.post("/signup", function(req, res) {
   }).spread(function(user, created) { // then promise (spread because there's more than one possible action with findOrCreate)
     if(created) { // created is either 1 or 0 for new or already existing
       passport.authenticate("local", { // this is the "redirect" version of passport.authenticate()
-        successRedirect: "/",
+        successRedirect: "/dashboard",
         successFlash: "Account created and logged in." // enabled by require("connect-flash") that's called in index.js and npm-installed
       })(req, res);
     } else {

@@ -33,19 +33,26 @@ router.post("/", upload.single("myFile"), function(req, res) {
   // upload that image to cloudinary
   // console.log(req.file);
   // console.log("upload", upload);
-
-  var path = req.file.path;
+  if(req.body.uploadType === "file") {
+    var path = req.file.path;
+  } else if(req.body.uploadType === "link"){
+    var path = req.body.imageUrl;
+  }
 
   cloudinary.uploader.upload(path, function(result) {
+
     fs.unlink(path, function(error) { // asynchronous version
       if(error){
         res.send(error);
       }
     });
+
     req.session.upload = {
       url: cloudinary.url(result.public_id)
     }
+
     res.redirect("/duckify/preview");
+
   });
 });
 
@@ -74,8 +81,7 @@ router.get("/preview", isLoggedIn, function(req, res) {
 // create: resulting duckified to cloud
 // redirect to duckified's show page
 router.post("/preview", function(req, res) {
-  console.log(req.body);
-
+  
   var string = req.body.dataUrl;
   var regex = /^data:.+\/(.+);base64,(.*)$/;
 
@@ -95,13 +101,14 @@ router.post("/preview", function(req, res) {
     fs.unlink(path, function(error) { // asynchronous version
     });
 
-    // db.duckified.create({
-    //   cloudIDPost: result.public_id,
-    //   userId: res.locals.currentUser.id
-    // })
-    // .then(function(toDuckify) {
-    //   res.redirect("/dashboard");
-    // });
+    db.duckified.create({
+      cloudID: result.public_id,
+      userId: res.locals.currentUser.id,
+      public: req.body.featureInPublic
+    })
+    .then(function(toDuckify) {
+      res.redirect("/dashboard");
+    });
 
   });
 });
