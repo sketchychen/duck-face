@@ -102,19 +102,8 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       var url = "/duckify/preview";
 
       $.post(url, { featureInPublic: featureInPublic, dataUrl: canvasData }).done(function(data) {
-        console.log("posted:", data);
+        window.location = "/dashboard";
       });
-
-      // $.ajax({
-      //   method: "POST",
-      //   url: url,
-      //   dataType: "json",
-      //   data: JSON.stringify( { data: canvasData, test: "test" }),
-      //   contentType: "application/json",
-      //   success: function(data) {
-      //     console.log("POST done:", data);
-      //   }
-      // });
     });
 
   } // close baseImg.onload = function()

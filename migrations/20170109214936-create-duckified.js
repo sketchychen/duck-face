@@ -8,10 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      cloudIDPre: {
-        type: Sequelize.STRING
-      },
-      cloudIDPost: {
+      cloudID: {
         type: Sequelize.STRING
       },
       userId: {

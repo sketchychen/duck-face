@@ -1,8 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var duckified = sequelize.define('duckified', {
-    cloudIDPre: DataTypes.STRING,
-    cloudIDPost: DataTypes.STRING,
+    cloudID: DataTypes.STRING,
     userId: DataTypes.INTEGER,
     public: DataTypes.BOOLEAN
   }, {
