@@ -2,33 +2,16 @@
 <div class="container">
   <div id="editor">
     <div><canvas width="512" height="512" id="canvas"></canvas></div>
-    <p id="original-url" class="hidden"><%= imageSrc %></p>
     <div class="duck-faces"></div>
-    <!-- <div class="controls">
-        <div class="left-right">
-          <button id="nudge-left" class="btn btn-default"><i-glyphicon class="glyphicon glyphicon-arrow-left" /></button>
-          <button id="nudge-right" class="btn btn-default"><i-glyphicon class="glyphicon glyphicon-arrow-right" /></button>
-        </div>
-
-        <div class="up-down">
-          <button id="nudge-up" class="btn btn-default"><i-glyphicon class="glyphicon glyphicon-arrow-up" /></button>
-          <button id="nudge-down" class="btn btn-default"><i-glyphicon class="glyphicon glyphicon-arrow-down" /></button>
-        </div>
-
-        <div class="ccw-cw">
-          <button id="nudge-ccw" class="btn btn-default">⟲</button>
-          <button id="nudge-cw" class="btn btn-default">⟳</button>
-        </div>
-      <div class="scaling"></div>
-    </div> -->
-    <form id="save-form" method="POST" action="/duckify/preview">
-      <input id="save-form-image" type="text" name="image" class="hidden" value="" />
-      <button type="submit" class="btn btn-default">
+    <form id="save-form" method="POST" action="/duckify/preview" enctype="multipart/form-data">
+      <!-- <input id="save-form-image" type="text" name="image" class="hidden" value=""> -->
+      <!-- <input id="duckified" type="file" name="duckified" class="hidden"> -->
+      <button id="save-button" type="submit" class="btn btn-default">
         save to gallery
         <i-glyphicon class="glyphicon glyphicon-floppy-disk" />
       </button>
       <label for="public">
-        <input id="save-form-public" type="checkbox" name="public" value="true" />
+        <input id="save-form-public" type="checkbox" name="public">
         feature on public main site?
       </label>
     </form>
@@ -38,5 +21,4 @@
 
 <script>
   $(document).ready(function() { onPreviewLoad("<%- imageSrc %>", <%- detects %>); });
-
 </script>

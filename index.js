@@ -38,8 +38,8 @@ app.get("/", function(req, res) { // load index page
   res.render("index");
 });
 
-app.get("/profile", isLoggedIn, function(req, res) { // runs through isLoggedIn before function(req, res)
-  res.render("profile"); // ideally this will present differently with a logged-in user
+app.get("/dashboard", isLoggedIn, function(req, res) { // runs through isLoggedIn before function(req, res)
+  res.render("dashboard"); // ideally this will present differently with a logged-in user
 });
 
 app.use("/auth", require("./controllers/auth")); // add our controller files

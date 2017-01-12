@@ -8,12 +8,13 @@ var cloudinary = require("cloudinary");
 var multer = require('multer');
 var upload = multer({ dest: './uploads/' });
 
+var isLoggedIn = require("../middleware/isLoggedIn");
 
 // ROOT: "/duckify/"
 
 // GET "/new"
 // view: duckify/new.ejs
-router.get("/", function(req, res) {
+router.get("/", isLoggedIn, function(req, res) {
 
   res.render("duckify/new");
 })
@@ -41,25 +42,17 @@ router.post("/", upload.single("myFile"), function(req, res) {
         res.send(error);
       }
     });
-
-    db.duckified.create({
-      cloudIDPre: result.public_id,
-      userId: res.locals.currentUser.id
-    })
-    .then(function(toDuckify) {
-      req.session.upload = {
-        url: cloudinary.url(toDuckify.cloudIDPre)
-      }
-      res.redirect("/duckify/preview");
-    });
-
+    req.session.upload = {
+      url: cloudinary.url(result.public_id)
+    }
+    res.redirect("/duckify/preview");
   });
 });
 
 
 // GET "/preview"
 // view: duckify/preview.ejs
-router.get("/preview", function(req, res) {
+router.get("/preview", isLoggedIn, function(req, res) {
   var fppDetectionDetectUrl = "http://api.us.faceplusplus.com/detection/detect?"
   + "url=" + req.session.upload.url
   + "&api_secret=" + process.env.FACEPP_SECRET
@@ -80,5 +73,37 @@ router.get("/preview", function(req, res) {
 // POST "/preview"
 // create: resulting duckified to cloud
 // redirect to duckified's show page
+router.post("/preview", function(req, res) {
+  console.log(req.body);
+
+  var string = req.body.dataUrl;
+  var regex = /^data:.+\/(.+);base64,(.*)$/;
+
+  var matches = string.match(regex);
+  var ext = matches[1];
+  var data = matches[2];
+  var buffer = new Buffer(data, 'base64');
+  var path = './uploads/duckified.' + ext;
+
+  fs.writeFileSync(path, buffer, function(error) {
+    if(error) {
+      console.log(error);
+    }
+  });
+
+  cloudinary.uploader.upload(path, function(result) {
+    fs.unlink(path, function(error) { // asynchronous version
+    });
+
+    // db.duckified.create({
+    //   cloudIDPost: result.public_id,
+    //   userId: res.locals.currentUser.id
+    // })
+    // .then(function(toDuckify) {
+    //   res.redirect("/dashboard");
+    // });
+
+  });
+});
 
 module.exports = router;

@@ -93,8 +93,29 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       ctx.restore();
     }); // close forEach
 
-    var dataURL = canvas.toDataURL();
-    $("#save-form-image").val(dataURL);
+    $("#save-form").on("submit", function(event){
+      event.preventDefault();
+      console.log("submitting");
+
+      var featureInPublic = $("#save-form-public").prop("checked");
+      var canvasData = canvas.toDataURL("image/jpeg", 0.5);
+      var url = "/duckify/preview";
+
+      $.post(url, { featureInPublic: featureInPublic, dataUrl: canvasData }).done(function(data) {
+        console.log("posted:", data);
+      });
+
+      // $.ajax({
+      //   method: "POST",
+      //   url: url,
+      //   dataType: "json",
+      //   data: JSON.stringify( { data: canvasData, test: "test" }),
+      //   contentType: "application/json",
+      //   success: function(data) {
+      //     console.log("POST done:", data);
+      //   }
+      // });
+    });
 
   } // close baseImg.onload = function()
 } // nothing should exist beyond this scope
