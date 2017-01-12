@@ -21,7 +21,17 @@
         </div>
       <div class="scaling"></div>
     </div> -->
-    <button id="save">save</button>
+    <form id="save-form" method="POST" action="/duckify/preview">
+      <input id="save-form-image" type="text" name="image" class="hidden" value="" />
+      <button type="submit" class="btn btn-default">
+        save to gallery
+        <i-glyphicon class="glyphicon glyphicon-floppy-disk" />
+      </button>
+      <label for="public">
+        <input id="save-form-public" type="checkbox" name="public" value="true" />
+        feature on public main site?
+      </label>
+    </form>
   </div>
 
 </div>

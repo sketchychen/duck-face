@@ -2,7 +2,6 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   var canvasSize = 512;
-  var saveButton = $("#save");
 
   // initialize base image, which may not be actually drawn on canvas until ready to export
   // and instead will be displayed for the user as a background image
@@ -96,9 +95,8 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       ctx.restore();
     }); // close forEach
 
-    saveButton.on("click", function(event) {
-      var dataURL = canvas.toDataURL();
-    });
+    var dataURL = canvas.toDataURL();
+    $("#save-form-image").val(dataURL);
 
   } // close baseImg.onload = function()
 } // nothing should exist beyond this scope

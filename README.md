@@ -19,6 +19,7 @@ as a user --
 npm install --save morgan body-parser dotenv request
 npm install --save pg pg-hstore sequelize
 npm install --save passport passport-local connect-flash bcrypt express-sessions
+npm install --save multer cloudinary
 
 npm install -g mocha <!-- already been done -->
 npm install --save-dev chai supertest mocha</code></pre>
