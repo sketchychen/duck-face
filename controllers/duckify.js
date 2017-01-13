@@ -7,7 +7,6 @@ var fs = require("fs");
 var cloudinary = require("cloudinary");
 var multer = require("multer");
 var upload = multer({ dest: "./uploads/" });
-var btoa = require("btoa");
 
 var isLoggedIn = require("../middleware/isLoggedIn");
 
