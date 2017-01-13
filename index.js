@@ -37,16 +37,18 @@ app.use(function(req, res, next) { // "next" means go through with the response 
 });
 
 app.get("/", function(req, res) { // load index page
+  console.log(res.locals.currentUser);
   db.duckified.findAll({
     where: {
       public: "TRUE"
-    }
+    },
+    order: [["createdAt", "DESC"]]
   }).then(function(duckifieds) {
     var duckfaces = [];
     duckifieds.forEach(function(duckified){
       duckfaces.push(cloudinary.url(duckified.cloudID));
     })
-    res.render("index", { duckfaces: duckfaces });
+    res.render("index", { user: res.locals.currentUser, duckfaces: duckfaces });
   })
 });
 

@@ -1,11 +1,13 @@
-<h2>Dashboard</h2>
-<a href="/duckify">go duckify stuff</a>
-<a href="/">Home</a>
-
+<h2>Your Dashboard</h2>
+<div class="banner-block">
+  <a class="btn btn-default banner-block-button" href="/duckify">go duckify stuff</a>
+</div>
 <div class="gallery">
-  <% duckfaces.forEach(function(duckface){ %>
-    <div class="gallery-thumbnail">
-      <img src="<%- duckface %>">
-    </div>
-  <% }); %>
+  <div class="columns">
+    <% duckfaces.forEach(function(duckface){ %>
+      <div class="gallery-thumbnail">
+        <img src="<%- duckface %>">
+      </div>
+    <% }); %>
+  </div>
 </div>

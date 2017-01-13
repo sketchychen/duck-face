@@ -1,6 +1,17 @@
-<h2>Home</h2>
-
-<a href="/auth/signup">Signup</a>
-<a href="/auth/login">Login</a>
-<a href="/auth/logout">Logout</a>
-<a href="/dashboard">Dashboard</a>
+<h2>duckface</h2>
+<div class="banner-block">
+  <% if(user === undefined) { %>
+    <a class="btn btn-default banner-block-button" href="/signup">sign up</a> <h4>or</h4> <a class="btn btn-default banner-block-button" href="/login">login</a>
+  <% } else { %>
+    <h4>welcome, <%= user.name %></h4>
+  <% } %>
+</div>
+<div class="gallery">
+  <div class="columns">
+    <% duckfaces.forEach(function(duckface){ %>
+      <div class="gallery-thumbnail">
+        <img src="<%- duckface %>">
+      </div>
+    <% }); %>
+  </div>
+</div>
