@@ -6,11 +6,20 @@ canvas {
   border: solid 1px #bbbbbb;
 }
 
+.alert {
+  margin: 0;
+}
+
 .banner-block {
   width: 100%;
   height: 150px;
   display: flex;
   align-items: center;
+}
+
+.banner-block h4 {
+  width: 100%;
+  text-align: center;
 }
 
 .banner-block-button {

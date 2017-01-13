@@ -48,7 +48,7 @@ app.get("/", function(req, res) { // load index page
     duckifieds.forEach(function(duckified){
       duckfaces.push(cloudinary.url(duckified.cloudID));
     })
-    res.render("index", { duckfaces: duckfaces });
+    res.render("index", { user: res.locals.currentUser, duckfaces: duckfaces });
   })
 });
 
