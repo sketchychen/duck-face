@@ -107,5 +107,18 @@ var onPreviewLoad = function(imageSrc, allTheFaces) {
 } // nothing for preview.ejs should exist beyond this scope
 
 var onShowLoad = function() {
+  $(".delete-form").on("submit", function(event) {
+    event.preventDefault();
+    
+    var form_element = $(event.target);
+    var form_url = form_element.attr("action");
 
+    $.ajax({
+      method: "DELETE",
+      url: form_url
+    }).done(function(data) {
+      console.log(data);
+      window.location = "/dashboard";
+    });
+  });
 }

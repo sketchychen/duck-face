@@ -1,9 +1,14 @@
 body {
+  width: 100%;
   background-color: lightgrey;
 }
 
 canvas {
   border: solid 1px #bbbbbb;
+}
+
+h2.header {
+  margin-top: 75px;
 }
 
 .alert {
@@ -108,6 +113,18 @@ canvas {
   background: #FEFEFE;
   border: 2px solid #FAFAFA;
   box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+}
+
+.dashboard-image-theater {
+  float: left;
+}
+
+.dashboard-image-options {
+  float: right;
+}
+
+.clearfix {
+  overflow: auto;
 }
 
 #or {

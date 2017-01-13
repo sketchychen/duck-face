@@ -3,11 +3,28 @@
   <a class="btn btn-default banner-block-button" href="/duckify">go duckify stuff</a>
 </div> -->
 
-<div class="theater">
+<div class="dashboard-image-theater theater">
   <div class="theater-image">
     <img src="<%= duckified.src %>" />
   </div>
 </div>
+
+<div class="dashboard-image-options">
+  <div class="edit-option">
+    <form class="edit-form" action="/dashboard/<%= duckified.id %>" method="PUT">
+      <input name="duckifiedID" type="hidden" value="<%= duckified.id %>">
+      <button class="btn" type="submit">save changes</button>
+    </form>
+  </div>
+  <div class="delete-option">
+    <form class="delete-form" action="/dashboard/<%= duckified.id %>" method="DELETE">
+      <input name="duckifiedID" type="hidden" value="<%= duckified.id %>">
+      <button class="btn btn-danger" type="submit">delete picture</button>
+    </form>
+  </div>
+</div>
+
+<div class="clearfix"></div>
 
 <script>
   $(document).ready(function() { onShowLoad(); });

@@ -28,17 +28,6 @@ router.get("/", isLoggedIn, function(req, res) {
 
 // GET "/dashboard/:id"
 // show user's picture
-// router.get("/:id", isLoggedIn, function(req, res) {
-//   db.duckified.findOne({
-//     where: {
-//       id: req.params.id,
-//       userId: res.locals.currentUser.id
-//     }
-//   }).then(function(duckified) {
-//     duckified.src = cloudinary.url(duckified.cloudID);
-//     res.render("dashboard/show", { duckified: duckified });
-//   });
-// });
 router.get("/:id", isLoggedIn, function(req, res) {
   db.duckified.findOne({
     where: {
@@ -46,9 +35,20 @@ router.get("/:id", isLoggedIn, function(req, res) {
     },
     include: [db.user]
   }).then(function(duckified) {
-    duckified.src = cloudinary.url(duckified.cloudID);
-    res.render("dashboard/show", { duckified: duckified });
+    if(duckified.user.id === res.locals.currentUser.id) {
+      duckified.src = cloudinary.url(duckified.cloudID);
+      res.render("dashboard/show", { duckified: duckified });
+    } else {
+      req.flash("error", "sorry, that pic ain't yours to mess with");
+      res.redirect("/dashboard");
+    }
   });
+});
+
+// DELETE "/dashboard/:id"
+// delete picture
+router.delete("/:id", isLoggedIn, function(req, res) {
+  
 });
 
 module.exports = router;
