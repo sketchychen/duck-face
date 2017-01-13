@@ -40,7 +40,8 @@ app.get("/", function(req, res) { // load index page
   db.duckified.findAll({
     where: {
       public: "TRUE"
-    }
+    },
+    order: [["createdAt", "DESC"]]
   }).then(function(duckifieds) {
     var duckfaces = [];
     duckifieds.forEach(function(duckified){

@@ -3,9 +3,11 @@
 <a href="/">Home</a>
 
 <div class="gallery">
-  <% duckfaces.forEach(function(duckface){ %>
-    <div class="gallery-thumbnail">
-      <img src="<%- duckface %>">
-    </div>
-  <% }); %>
+  <div class="columns">
+    <% duckfaces.forEach(function(duckface){ %>
+      <div class="gallery-thumbnail">
+        <img src="<%- duckface %>">
+      </div>
+    <% }); %>
+  </div>
 </div>

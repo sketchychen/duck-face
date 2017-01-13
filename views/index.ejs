@@ -1,6 +1,9 @@
-<h2>Home</h2>
-
-<a href="/auth/signup">Signup</a>
-<a href="/auth/login">Login</a>
-<a href="/auth/logout">Logout</a>
-<a href="/dashboard">Dashboard</a>
+<div class="gallery">
+  <div class="columns">
+    <% duckfaces.forEach(function(duckface){ %>
+      <div class="gallery-thumbnail">
+        <img src="<%- duckface %>">
+      </div>
+    <% }); %>
+  </div>
+</div>
