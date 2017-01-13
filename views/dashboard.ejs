@@ -1,3 +1,12 @@
 <h2>Dashboard</h2>
+
+<div class="gallery">
+  <% duckfaces.forEach(function(duckface){ %>
+    <div class="gallery-thumbnail">
+      <img src="<%- duckface %>">
+    </div>
+  <% }); %>
+</div>
+
 <a href="/duckify">go duckify stuff</a>
 <a href="/">Home</a>

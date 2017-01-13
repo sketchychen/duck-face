@@ -5,7 +5,9 @@ var bodyParser = require("body-parser");
 var session = require("express-session");
 var passport = require("./config/ppConfig");
 var flash = require("connect-flash");
+var cloudinary = require("cloudinary");
 var isLoggedIn = require("./middleware/isLoggedIn"); // isLoggedIn.js is custom middleware that we wrote
+var db = require("./models");
 var app = express();
 
 app.set("view engine", "ejs");
@@ -35,11 +37,32 @@ app.use(function(req, res, next) { // "next" means go through with the response 
 });
 
 app.get("/", function(req, res) { // load index page
-  res.render("index");
+  db.duckified.findAll({
+    where: {
+      public: "TRUE"
+    }
+  }).then(function(duckifieds) {
+    var duckfaces = [];
+    duckifieds.forEach(function(duckified){
+      duckfaces.push(cloudinary.url(duckified.cloudID));
+    })
+    res.render("index", { duckfaces: duckfaces });
+  })
 });
 
 app.get("/dashboard", isLoggedIn, function(req, res) { // runs through isLoggedIn before function(req, res)
-  res.render("dashboard"); // ideally this will present differently with a logged-in user
+  db.user.findOne({
+    where: {
+      id: res.locals.currentUser.id
+    },
+    include: [db.duckified]
+  }).then(function(user) {
+    var duckfaces = [];
+    user.duckifieds.forEach(function(duckified){
+      duckfaces.push(cloudinary.url(duckified.cloudID));
+    })
+    res.render("dashboard", { user: user, duckfaces: duckfaces }); // ideally this will present differently with a logged-in user
+  })
 });
 
 app.use("/auth", require("./controllers/auth")); // add our controller files

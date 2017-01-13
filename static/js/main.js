@@ -101,8 +101,14 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       var canvasData = canvas.toDataURL("image/jpeg", 0.5);
       var url = "/duckify/preview";
 
-      $.post(url, { featureInPublic: featureInPublic, dataUrl: canvasData }).done(function(data) {
+      $.post(url, {
+        featureInPublic: featureInPublic,
+        dataUrl: canvasData
+      })
+      .done(function(data) {
         window.location = "/dashboard";
+      }).fail(function(error) {
+        alert('Error: ' + response.responseText);
       });
     });
 

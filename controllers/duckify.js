@@ -33,29 +33,42 @@ router.post("/", upload.single("myFile"), function(req, res) {
   // upload that image to cloudinary
   // console.log(req.file);
   // console.log("upload", upload);
+
+  console.log(req.body);
+
   if(req.body.uploadType === "file") {
     var path = req.file.path;
+
+    cloudinary.uploader.upload(path, function(result) {
+
+      fs.unlinkSync(path, function(error) {
+        if(error){
+          res.send(error);
+        }
+      });
+
+      req.session.upload = {
+        url: cloudinary.url(result.public_id)
+      }
+
+      res.redirect("/duckify/preview");
+
+    });
   } else if(req.body.uploadType === "link"){
-    var path = req.body.imageUrl;
+    // request(req.body.imageUrl, function(error, response, body) {
+    //   res.send(body);
+    // });
+    
+      req.session.upload = {
+        url: req.body.imageUrl
+      }
+      res.redirect("/duckify/preview");
+
+
   }
 
-  cloudinary.uploader.upload(path, function(result) {
 
-    fs.unlink(path, function(error) { // asynchronous version
-      if(error){
-        res.send(error);
-      }
-    });
-
-    req.session.upload = {
-      url: cloudinary.url(result.public_id)
-    }
-
-    res.redirect("/duckify/preview");
-
-  });
 });
-
 
 // GET "/preview"
 // view: duckify/preview.ejs
@@ -81,7 +94,7 @@ router.get("/preview", isLoggedIn, function(req, res) {
 // create: resulting duckified to cloud
 // redirect to duckified's show page
 router.post("/preview", function(req, res) {
-  
+
   var string = req.body.dataUrl;
   var regex = /^data:.+\/(.+);base64,(.*)$/;
 
