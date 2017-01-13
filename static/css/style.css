@@ -7,8 +7,8 @@ canvas {
   border: solid 1px #bbbbbb;
 }
 
-h2.header {
-  margin-top: 75px;
+div.fixed-nav-padding {
+  height: 60px;
 }
 
 .alert {
