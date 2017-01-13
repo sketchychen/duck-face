@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
+    "btoa": "^1.1.2",
     "cloudinary": "^1.5.0",
     "connect-flash": "^0.1.1",
     "dotenv": "^4.0.0",

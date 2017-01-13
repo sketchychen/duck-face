@@ -1,12 +1,13 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../models");
-var request = require("request");
+var request = require("request").defaults({ encoding: null });
 var fs = require("fs");
 
 var cloudinary = require("cloudinary");
-var multer = require('multer');
-var upload = multer({ dest: './uploads/' });
+var multer = require("multer");
+var upload = multer({ dest: "./uploads/" });
+var btoa = require("btoa");
 
 var isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -15,58 +16,71 @@ var isLoggedIn = require("../middleware/isLoggedIn");
 // GET "/new"
 // view: duckify/new.ejs
 router.get("/", isLoggedIn, function(req, res) {
-
   res.render("duckify/new");
 })
 
-// // POST "/new"
-// router.post("/", function(req, res) {
-//   console.log(req.body);
-//
-//   req.session.upload = {
-//     url: req.body.imageUrl
-//   }
-//   res.redirect("/duckify/preview");
-// })
-
 router.post("/", upload.single("myFile"), function(req, res) {
-  // upload that image to cloudinary
-  // console.log(req.file);
-  // console.log("upload", upload);
+  // upload the image to cloudinary to avoid cross origin issues
 
   console.log(req.body);
 
+  var path;
+
   if(req.body.uploadType === "file") {
-    var path = req.file.path;
+    path = req.file.path;
 
     cloudinary.uploader.upload(path, function(result) {
-
       fs.unlinkSync(path, function(error) {
         if(error){
           res.send(error);
         }
       });
 
-      req.session.upload = {
+      req.session.needsDuckface = {
         url: cloudinary.url(result.public_id)
       }
 
       res.redirect("/duckify/preview");
 
     });
+
   } else if(req.body.uploadType === "link"){
-    // request(req.body.imageUrl, function(error, response, body) {
-    //   res.send(body);
-    // });
-    
-      req.session.upload = {
-        url: req.body.imageUrl
+
+    request.get(req.body.imageUrl, function (error, response, body) {
+
+      if (!error && response.statusCode == 200) {
+
+        var data = new Buffer(body).toString('base64');
+        var ext = response.headers["content-type"].split("/")[1];
+        var buffer = new Buffer(data, "base64");
+        path = "./uploads/toDuckify." + ext;
+        console.log("inside request.get's if no error:", path);
+
+        fs.writeFileSync(path, buffer, function(error) {
+          console.log("file-writing totally happening I guess:", path);
+          if(error) {
+            console.log(error);
+          }
+        });
+
+        cloudinary.uploader.upload(path, function(result) {
+          console.log("uploading to cloudinary:", path);
+          fs.unlinkSync(path, function(error) {
+            if(error) {
+              res.send(error);
+            }
+          });
+
+          req.session.needsDuckface = {
+            public_id: result.public_id,
+            url: cloudinary.url(result.public_id)
+          };
+
+          res.redirect("/duckify/preview");
+        });
       }
-      res.redirect("/duckify/preview");
-
-
+    });
   }
-
 
 });
 
@@ -74,7 +88,7 @@ router.post("/", upload.single("myFile"), function(req, res) {
 // view: duckify/preview.ejs
 router.get("/preview", isLoggedIn, function(req, res) {
   var fppDetectionDetectUrl = "http://api.us.faceplusplus.com/detection/detect?"
-  + "url=" + req.session.upload.url
+  + "url=" + req.session.needsDuckface.url
   + "&api_secret=" + process.env.FACEPP_SECRET
   + "&api_key=" + process.env.FACEPP_KEY
   + "&attribute=pose";
@@ -84,7 +98,7 @@ router.get("/preview", isLoggedIn, function(req, res) {
       var detects = body;
       res.render("duckify/preview", {
         detects: detects,
-        imageSrc: req.session.upload.url
+        imageSrc: req.session.needsDuckface.url
       });
     }
   });
@@ -94,15 +108,15 @@ router.get("/preview", isLoggedIn, function(req, res) {
 // create: resulting duckified to cloud
 // redirect to duckified's show page
 router.post("/preview", function(req, res) {
-
+  cloudinary.uploader.destroy(req.session.needsDuckface.public_id, function(result) { console.log(result) });
   var string = req.body.dataUrl;
   var regex = /^data:.+\/(.+);base64,(.*)$/;
 
   var matches = string.match(regex);
   var ext = matches[1];
   var data = matches[2];
-  var buffer = new Buffer(data, 'base64');
-  var path = './uploads/duckified.' + ext;
+  var buffer = new Buffer(data, "base64");
+  var path = "./uploads/duckified." + ext;
 
   fs.writeFileSync(path, buffer, function(error) {
     if(error) {
