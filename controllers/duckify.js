@@ -38,7 +38,7 @@ function isImage(filename) {
     return false;
 }
 
-router.post("/", upload.single("myFile"), function(req, res) {
+router.post("/", isLoggedIn, upload.single("myFile"), function(req, res) {
   // upload the image to cloudinary to avoid cross origin issues
 
   var path;
@@ -122,7 +122,7 @@ router.get("/preview", isLoggedIn, function(req, res) {
 // POST "/preview"
 // create: resulting duckified to cloud
 // redirect to duckified's show page
-router.post("/preview", function(req, res) {
+router.post("/preview", isLoggedIn, function(req, res) {
   // cloudinary.uploader.destroy(req.session.needsDuckface.public_id, function(result) { console.log(result) });
   var string = req.body.dataUrl;
   var regex = /^data:.+\/(.+);base64,(.*)$/;
