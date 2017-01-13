@@ -13,6 +13,7 @@
   <div class="edit-option">
     <form class="edit-form" action="/dashboard/<%= duckified.id %>" method="PUT">
       <input name="duckifiedID" type="hidden" value="<%= duckified.id %>">
+      <input name="tags" type="text">
       <button class="btn" type="submit">save changes</button>
     </form>
   </div>
