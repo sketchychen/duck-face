@@ -6,7 +6,7 @@ var session = require("express-session");
 var passport = require("./config/ppConfig");
 var flash = require("connect-flash");
 var cloudinary = require("cloudinary");
-var isLoggedIn = require("./middleware/isLoggedIn"); // isLoggedIn.js is custom middleware that we wrote
+var isLoggedIn = require("./middleware/isLoggedIn");
 var db = require("./models");
 var app = express();
 
@@ -18,25 +18,24 @@ app.use(ejsLayouts);
 
 app.use(express.static(__dirname + "/static/"));
 
-app.use(session({ // process.env.____ stores on system level, limits scope to hardware of server instead of its code. you want to .gitignore .env so it doesn't go up on the server
-  secret: process.env.SESSION_SECRET || "supersecretpassword", // "supersecretpassword" is salt to set people's sessions apart
-  resave: false, // if nothing changes, don't continually write to memory
-  saveUninitialized: true // if it's a brand new session, save it
+app.use(session({
+  secret: process.env.SESSION_SECRET || "supersecretpassword",
+  resave: false,
+  saveUninitialized: true
 }));
 
 app.use(passport.initialize());
-app.use(passport.session()); // enables passport to work with session
-// needs to happen after/be below session creation (can't use what hasn't been instantiated yet)
+app.use(passport.session());
 
 app.use(flash());
 
-app.use(function(req, res, next) { // "next" means go through with the response cycle
+app.use(function(req, res, next) {
   res.locals.alerts = req.flash();
-  res.locals.currentUser = req.user; // req.user is available due to passport
-  next(); // continue on
+  res.locals.currentUser = req.user;
+  next();
 });
 
-app.get("/", function(req, res) { // load index page
+app.get("/", function(req, res) {
   console.log(res.locals.currentUser);
   db.duckified.findAll({
     where: {
@@ -52,7 +51,7 @@ app.get("/", function(req, res) { // load index page
   })
 });
 
-app.get("/dashboard", isLoggedIn, function(req, res) { // runs through isLoggedIn before function(req, res)
+app.get("/dashboard", isLoggedIn, function(req, res) {
   db.user.findOne({
     where: {
       id: res.locals.currentUser.id
@@ -63,14 +62,13 @@ app.get("/dashboard", isLoggedIn, function(req, res) { // runs through isLoggedI
     user.duckifieds.forEach(function(duckified){
       duckfaces.push(cloudinary.url(duckified.cloudID));
     })
-    res.render("dashboard", { user: user, duckfaces: duckfaces }); // ideally this will present differently with a logged-in user
+    res.render("dashboard", { user: user, duckfaces: duckfaces });
   })
 });
 
-app.use("/auth", require("./controllers/auth")); // add our controller files
+app.use("/auth", require("./controllers/auth"));
 app.use("/duckify", require("./controllers/duckify"));
 
-// process.env.____ stores on system level, limits scope to hardware of server instead of its code. you want to .gitignore .env so it doesn't go up on the server
 var server = app.listen(process.env.PORT || 3000);
 
 module.exports = server;

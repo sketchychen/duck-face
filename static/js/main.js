@@ -1,16 +1,12 @@
-var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called in appropriate .ejs file.
+var onPreviewLoad = function(imageSrc, allTheFaces) {
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   var canvasSize = 512;
 
-  // initialize base image, which may not be actually drawn on canvas until ready to export
-  // and instead will be displayed for the user as a background image
-  // this is to allow editing/redrawing of beaks without having to redraw the background image
   var baseImg = new Image();
   baseImg.src = imageSrc;
   baseImg.crossOrigin = "anonymous";
 
-  // initialize all the beaks (one per face), must be before/outside baseImg.onload
   var beaks = [];
   allTheFaces.face.forEach(function(face, i) {
     beaks.push({
@@ -20,9 +16,6 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
     beaks[i].img.src = "/img/duckbeak1.png";
     beaks[i].img.crossOrigin = "anonymous";
   });
-
-  console.log(beaks);
-
 
   baseImg.onload = function() {
     /* BACKGROUND, THE ORIGINAL PICTURE */
@@ -73,13 +66,11 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       var faceYawAngle = dataYawAngle * Math.PI/180;
       var facePitchAngle = dataPitchAngle * Math.PI/180;
 
-      console.log("p, r, y:", dataPitchAngle, dataRollAngle, dataYawAngle);
-
       var c = faceWidth/2 * 0.9; // c for hypotenuse
       var a = c * Math.sin(faceRollAngle); // a for smaller leg, or y presumably
       var b = c * Math.cos(faceRollAngle); // b for longer leg, or x presumably
 
-      console.log("x, y:", (faceCenterX + b), (faceCenterY + a));
+      // draw each beak
       ctx.save();
       if(faceYawAngle < 0){
         ctx.translate((faceCenterX - b), (faceCenterY - a));
@@ -91,11 +82,10 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       }
       ctx.drawImage(beak.img, 0, 0, beakWidth, beakHeight);
       ctx.restore();
-    }); // close forEach
+    });
 
     $("#save-form").on("submit", function(event){
       event.preventDefault();
-      console.log("submitting");
 
       var featureInPublic = $("#save-form-public").prop("checked");
       var canvasData = canvas.toDataURL("image/jpeg", 0.5);
@@ -112,5 +102,5 @@ var onPreviewLoad = function(imageSrc, allTheFaces) { // load only when called i
       });
     });
 
-  } // close baseImg.onload = function()
+  }
 } // nothing should exist beyond this scope

@@ -1,9 +1,9 @@
 <h2>duckface</h2>
 <div class="banner-block">
   <% if(user === undefined) { %>
-    <a class="btn btn-default banner-block-button" href="/signup">sign up</a> <h4>or</h4> <a class="btn btn-default banner-block-button" href="/login">login</a>
+    <a class="btn btn-default banner-block-button" href="/auth/signup">sign up</a> <h4>or</h4> <a class="btn btn-default banner-block-button" href="/auth/login">login</a>
   <% } else { %>
-    <h4>welcome, <%= user.name %></h4>
+    <h3>welcome, <%= user.name %></h3>
   <% } %>
 </div>
 <div class="gallery">

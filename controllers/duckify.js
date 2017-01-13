@@ -18,14 +18,33 @@ router.get("/", isLoggedIn, function(req, res) {
   res.render("duckify/new");
 })
 
+function getExtension(filename) {
+    var parts = filename.split('.');
+    console.log(parts[parts.length - 1]);
+    return parts[parts.length - 1];
+}
+
+function isImage(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+      case 'bmp':
+      case 'png':
+        //etc
+        return true;
+    }
+    return false;
+}
+
 router.post("/", upload.single("myFile"), function(req, res) {
   // upload the image to cloudinary to avoid cross origin issues
-
-  console.log(req.body);
 
   var path;
 
   if(req.body.uploadType === "file") {
+
     path = req.file.path;
 
     cloudinary.uploader.upload(path, function(result) {
@@ -44,43 +63,40 @@ router.post("/", upload.single("myFile"), function(req, res) {
     });
 
   } else if(req.body.uploadType === "link"){
+    if(isImage(req.body.imageUrl)) {
+      request.get(req.body.imageUrl, function (error, response, body) {
 
-    request.get(req.body.imageUrl, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
 
-      if (!error && response.statusCode == 200) {
+          var data = new Buffer(body).toString('base64');
+          var ext = response.headers["content-type"].split("/")[1];
+          var buffer = new Buffer(data, "base64");
+          path = "./uploads/toDuckify." + ext;
 
-        var data = new Buffer(body).toString('base64');
-        var ext = response.headers["content-type"].split("/")[1];
-        var buffer = new Buffer(data, "base64");
-        path = "./uploads/toDuckify." + ext;
-        console.log("inside request.get's if no error:", path);
-
-        fs.writeFileSync(path, buffer, function(error) {
-          console.log("file-writing totally happening I guess:", path);
-          if(error) {
-            console.log(error);
-          }
-        });
-
-        cloudinary.uploader.upload(path, function(result) {
-          console.log("uploading to cloudinary:", path);
-          fs.unlinkSync(path, function(error) {
+          fs.writeFileSync(path, buffer, function(error) {
             if(error) {
-              res.send(error);
+              console.log(error);
             }
           });
 
-          req.session.needsDuckface = {
-            public_id: result.public_id,
-            url: cloudinary.url(result.public_id)
-          };
+          cloudinary.uploader.upload(path, function(result) {
+            fs.unlinkSync(path, function(error) {
+              if(error) {
+                res.send(error);
+              }
+            });
 
-          res.redirect("/duckify/preview");
-        });
-      }
-    });
+            req.session.needsDuckface = {
+              public_id: result.public_id,
+              url: cloudinary.url(result.public_id)
+            };
+
+            res.redirect("/duckify/preview");
+          });
+        }
+      });
+    }
   }
-
 });
 
 // GET "/preview"
