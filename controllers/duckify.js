@@ -123,7 +123,7 @@ router.get("/preview", isLoggedIn, function(req, res) {
 // create: resulting duckified to cloud
 // redirect to duckified's show page
 router.post("/preview", function(req, res) {
-  cloudinary.uploader.destroy(req.session.needsDuckface.public_id, function(result) { console.log(result) });
+  // cloudinary.uploader.destroy(req.session.needsDuckface.public_id, function(result) { console.log(result) });
   var string = req.body.dataUrl;
   var regex = /^data:.+\/(.+);base64,(.*)$/;
 

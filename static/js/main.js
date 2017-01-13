@@ -86,6 +86,7 @@ var onPreviewLoad = function(imageSrc, allTheFaces) {
 
     $("#save-form").on("submit", function(event){
       event.preventDefault();
+      console.log("submit clicked");
 
       var featureInPublic = $("#save-form-public").prop("checked");
       var canvasData = canvas.toDataURL("image/jpeg", 0.5);
