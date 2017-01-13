@@ -104,4 +104,8 @@ var onPreviewLoad = function(imageSrc, allTheFaces) {
     });
 
   }
-} // nothing should exist beyond this scope
+} // nothing for preview.ejs should exist beyond this scope
+
+var onShowLoad = function() {
+
+}

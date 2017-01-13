@@ -51,23 +51,9 @@ app.get("/", function(req, res) {
   })
 });
 
-app.get("/dashboard", isLoggedIn, function(req, res) {
-  db.user.findOne({
-    where: {
-      id: res.locals.currentUser.id
-    },
-    include: [db.duckified]
-  }).then(function(user) {
-    var duckfaces = [];
-    user.duckifieds.forEach(function(duckified){
-      duckfaces.push(cloudinary.url(duckified.cloudID));
-    })
-    res.render("dashboard", { user: user, duckfaces: duckfaces });
-  })
-});
-
 app.use("/auth", require("./controllers/auth"));
 app.use("/duckify", require("./controllers/duckify"));
+app.use("/dashboard", require("./controllers/dashboard"));
 
 var server = app.listen(process.env.PORT || 3000);
 

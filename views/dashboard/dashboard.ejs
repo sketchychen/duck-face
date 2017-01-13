@@ -6,7 +6,7 @@
   <div class="columns">
     <% duckfaces.forEach(function(duckface){ %>
       <div class="gallery-thumbnail">
-        <img src="<%- duckface %>">
+        <a href="/dashboard/<%= duckface.id %>"><img src="<%- duckface.src %>"></a>
       </div>
     <% }); %>
   </div>
