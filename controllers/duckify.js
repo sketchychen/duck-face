@@ -133,7 +133,7 @@ router.post("/preview", function(req, res) {
   var buffer = new Buffer(data, "base64");
   var path = "./uploads/duckified." + ext;
 
-  fs.writeFileSync(path, buffer, function(error) {
+  fs.writeFile(path, buffer, function(error) {
     if(error) {
       console.log(error);
     }
