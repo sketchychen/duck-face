@@ -77,21 +77,21 @@ router.post("/", upload.single("myFile"), function(req, res) {
             if(error) {
               console.log(error);
             }
-          }).then(function() {
-            cloudinary.uploader.upload(path, function(result) {
-              fs.unlinkSync(path, function(error) {
-                if(error) {
-                  res.send(error);
-                }
-              });
+          });
 
-              req.session.needsDuckface = {
-                public_id: result.public_id,
-                url: cloudinary.url(result.public_id)
-              };
-
-              res.redirect("/duckify/preview");
+          cloudinary.uploader.upload(path, function(result) {
+            fs.unlinkSync(path, function(error) {
+              if(error) {
+                res.send(error);
+              }
             });
+
+            req.session.needsDuckface = {
+              public_id: result.public_id,
+              url: cloudinary.url(result.public_id)
+            };
+
+            res.redirect("/duckify/preview");
           });
         }
       });
