@@ -3,6 +3,7 @@ canvas {
 }
 
 .gallery {
+  width: 100%;
 	max-width: 1100px;
 	min-width: 800px;
 	margin: 50px auto;
@@ -51,7 +52,9 @@ canvas {
   margin: 0 auto;
   padding: 20px;
   width: 300px;
-  border: solid 1px #cccccc;
+  background: #FEFEFE;
+	border: 2px solid #FAFAFA;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
 }
 
 .upload-box {

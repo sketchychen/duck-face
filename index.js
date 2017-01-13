@@ -37,6 +37,7 @@ app.use(function(req, res, next) { // "next" means go through with the response 
 });
 
 app.get("/", function(req, res) { // load index page
+  console.log(res.locals.currentUser);
   db.duckified.findAll({
     where: {
       public: "TRUE"
