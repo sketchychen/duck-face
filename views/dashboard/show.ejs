@@ -19,7 +19,8 @@
   <div class="delete-option">
     <form class="delete-form" action="/dashboard/<%= duckified.id %>" method="DELETE">
       <input name="duckifiedID" type="hidden" value="<%= duckified.id %>">
-      <button class="btn btn-danger" type="submit">delete picture</button>
+      <button id="delete-check" class="btn btn-danger">delete picture</button>
+      <button id="delete-button" class="btn btn-danger hidden" type="submit">are you sure?</button>
     </form>
   </div>
 </div>

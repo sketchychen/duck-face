@@ -48,7 +48,15 @@ router.get("/:id", isLoggedIn, function(req, res) {
 // DELETE "/dashboard/:id"
 // delete picture
 router.delete("/:id", isLoggedIn, function(req, res) {
-  
+  db.duckified.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(result){
+    console.log("DELETED", result);
+    // res.redirect("/dashboard");
+    res.send(true);
+  });
 });
 
 module.exports = router;

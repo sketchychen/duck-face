@@ -107,9 +107,19 @@ var onPreviewLoad = function(imageSrc, allTheFaces) {
 } // nothing for preview.ejs should exist beyond this scope
 
 var onShowLoad = function() {
+
+  $("#delete-check").on("click", function(event) {
+    event.preventDefault();
+
+    $("#delete-check").addClass("hidden");
+    $("#delete-button").removeClass("hidden");
+
+  });
+
   $(".delete-form").on("submit", function(event) {
     event.preventDefault();
-    
+    console.log("delete submitting");
+
     var form_element = $(event.target);
     var form_url = form_element.attr("action");
 
@@ -118,7 +128,7 @@ var onShowLoad = function() {
       url: form_url
     }).done(function(data) {
       console.log(data);
-      window.location = "/dashboard";
+      window.location = '/dashboard';
     });
   });
 }
