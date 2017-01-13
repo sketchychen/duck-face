@@ -73,25 +73,25 @@ router.post("/", upload.single("myFile"), function(req, res) {
           var buffer = new Buffer(data, "base64");
           path = "./uploads/toDuckify." + ext;
 
-          fs.writeFileSync(path, buffer, function(error) {
+          fs.writeFile(path, buffer, function(error) {
             if(error) {
               console.log(error);
             }
-          });
+          }).then(function() {
+            cloudinary.uploader.upload(path, function(result) {
+              fs.unlinkSync(path, function(error) {
+                if(error) {
+                  res.send(error);
+                }
+              });
 
-          cloudinary.uploader.upload(path, function(result) {
-            fs.unlinkSync(path, function(error) {
-              if(error) {
-                res.send(error);
-              }
+              req.session.needsDuckface = {
+                public_id: result.public_id,
+                url: cloudinary.url(result.public_id)
+              };
+
+              res.redirect("/duckify/preview");
             });
-
-            req.session.needsDuckface = {
-              public_id: result.public_id,
-              url: cloudinary.url(result.public_id)
-            };
-
-            res.redirect("/duckify/preview");
           });
         }
       });
