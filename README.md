@@ -6,20 +6,15 @@ this is an image gallery site that recognizes faces and superimposes a duck bill
 ## why?
 because.
 
-## user stories
+## how?
+face detection/recognization API [Face++](faceplusplus.com) is used to process photos for face data. Requested face data is used to scale, position, and angle one duck beak onto every face the API can detect. Photos are uploaded to a cloud service pre- and post-processing.
 
-as a user --
-- I want to be redirected to a gallery of duck-faced images when I log in.
-- I want to submit an image URL for duck-face-ifying.
-- I want to upload an image for duck-face-ifying.
-- I want to be able to edit/tweak the position and size of my duck-faced images before I save them, in case it looks weird where the app puts it.
-
-## node.js dependencies
-<pre><code>npm install --save express ejs express-ejs-layouts
-npm install --save morgan body-parser dotenv request
-npm install --save pg pg-hstore sequelize
-npm install --save passport passport-local connect-flash bcrypt express-sessions
-npm install --save multer cloudinary
-
-npm install -g mocha <!-- already been done -->
-npm install --save-dev chai supertest mocha</code></pre>
+## things to do
+- switch out signup/login with logout/dashboard in the nav bar when someone has signed in
+- allow "guest" access to duckifying with limitations
+  - consider what limitations to have
+- add email verification
+- allow full-image display of public gallery images when clicked on and an X-button, escape key, and/or outside clicking to return to gallery
+- provide other image accessory options, like, googly eyes
+- make duckface logo
+- prevent hotlinking
