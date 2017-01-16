@@ -18,3 +18,5 @@ face detection/recognization API [Face++](faceplusplus.com) is used to process p
 - provide other image accessory options, like, googly eyes
 - make duckface logo
 - prevent hotlinking
+- add tags/keywords and search function
+- allow editing of tags and privacy state
