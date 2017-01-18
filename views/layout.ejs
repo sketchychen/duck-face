@@ -32,10 +32,13 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="/auth/signup">Signup</a></li>
-              <li><a href="/auth/login">Login</a></li>
-              <li><a href="/auth/logout">Logout</a></li>
-              <li><a href="/dashboard">Dashboard</a></li>
+              <% if(currentUser === undefined) { %>
+                <li><a href="/auth/signup">Signup</a></li>
+                <li><a href="/auth/login">Login</a></li>
+              <% } else { %>
+                <li><a href="/auth/logout">Logout</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+              <% } %>
             </ul>
           </div>
         </div>
