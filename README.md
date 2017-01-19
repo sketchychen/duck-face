@@ -1,4 +1,4 @@
-# duck-face
+# [duck-face](duckface.herokuapp.com)
 
 ## what?
 this is an image gallery site that recognizes faces and superimposes a duck bill over their noses and mouths.
