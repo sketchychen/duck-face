@@ -15,6 +15,7 @@ face detection/recognition API [Face++](faceplusplus.com) is used to process pho
   - consider what limitations to have
 - add email verification
 - allow full-image display of public gallery images when clicked on and an X-button, escape key, and/or outside clicking to return to gallery
+- clean up cloud-upload structure (delete pre-processed images from cloud and keep only post-processed images)
 - catch file size issues and other errors
 - provide other image accessory options, like googly eyes
 - make duckface logo

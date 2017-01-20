@@ -102,8 +102,8 @@ router.post("/", isLoggedIn, upload.single("myFile"), function(req, res) {
 // GET "/preview"
 // view: duckify/preview.ejs
 router.get("/preview", isLoggedIn, function(req, res) {
-  var fppDetectionDetectUrl = "http://api.us.faceplusplus.com/detection/detect?"
-  + "url=" + req.session.needsDuckface.url
+  var fppDetectionDetectUrl = "http://api.us.faceplusplus.com/detection/detect"
+  + "?url=" + req.session.needsDuckface.url
   + "&api_secret=" + process.env.FACEPP_SECRET
   + "&api_key=" + process.env.FACEPP_KEY
   + "&attribute=pose";
